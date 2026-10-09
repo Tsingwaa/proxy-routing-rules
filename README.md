@@ -89,8 +89,6 @@ rules/
 scripts/
   build.py                 # 标准库生成器，无第三方依赖
   test_build.py            # 转换语义与关键应用匹配验证
-.github/workflows/
-  validate.yml             # 检查生成文件与源文件一致
 LICENSES/                  # 上游许可
 NOTICE.md                  # 来源与署名
 ```
@@ -105,7 +103,7 @@ python3 scripts/build.py --check
 python3 -m unittest discover -s scripts -p 'test_*.py'
 ```
 
-提交源文件与生成结果后，`main` Raw URL 自动对应新版本；客户端按刷新策略拉取。GitHub Actions 只验证，不自动添加或扩充域名。域名和可选 IP 当前为手工审核快照，不会定时抓取上游。
+提交源文件与生成结果后，`main` Raw URL 自动对应新版本；客户端按刷新策略拉取。校验脚本仅检查文件与转换，不自动添加或扩充域名。当前 GitHub 凭据没有 workflow 写入权限，因此未启用 GitHub Actions；维护时运行上述本地校验命令。域名和可选 IP 当前为手工审核快照，不会定时抓取上游。
 
 ## 覆盖与边界
 
