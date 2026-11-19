@@ -15,19 +15,23 @@ CATEGORIES = {
 }
 
 
-def read_domains():
-    text = (ROOT / 'source/domains/common.list').read_text()
+def read_domains(filename='common.list'):
+    text = (ROOT / 'source/domains' / filename).read_text()
     groups = OrderedDict()
-    category = None
+    category = 'PROFILE' if filename == 'clean-egress.list' else None
+    if category:
+        groups[category] = []
     rules = []
     for line in text.splitlines():
         if '[ ' in line and line.startswith('#'):
             if len(line) != 68:
                 raise ValueError('Section banner must be 68 characters')
             category = line.split('[ ', 1)[1].split(' ]', 1)[0]
+            if category not in CATEGORIES:
+                raise ValueError(f'Unknown category: {category}')
             groups[category] = []
         elif line and not line.startswith('#'):
-            if category not in CATEGORIES or not re.fullmatch(r'DOMAIN(?:-SUFFIX)?,[a-z0-9.-]+', line):
+            if category not in groups or not re.fullmatch(r'DOMAIN(?:-SUFFIX)?,[a-z0-9.-]+', line):
                 raise ValueError(f'Invalid domain rule: {line}')
             kind, domain = line.split(',')
             if any(not x or x.startswith('-') or x.endswith('-') for x in domain.split('.')):
@@ -69,7 +73,7 @@ def domain_yaml(rules, title):
 def rendered():
     domain_text, groups, domains = read_domains()
     ip_text, networks = read_ips()
-    outputs = {}
+    outputs = {'rules/shadowrocket/clean-egress.list': read_domains('clean-egress.list')[0]}
     for client in ('shadowrocket', 'surge'):
         outputs[f'rules/{client}/common.list'] = domain_text
         if client == 'shadowrocket':

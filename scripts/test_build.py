@@ -31,6 +31,17 @@ class RuleFormats(unittest.TestCase):
                     networks.append(network)
             self.assertEqual(networks, build.read_ips()[1])
 
+    def test_clean_egress_scope(self):
+        text = build.rendered()['rules/shadowrocket/clean-egress.list']
+        rules = [line.split(',') for line in text.splitlines() if line.startswith('DOMAIN')]
+        def matches(host):
+            return any(host == d or k == 'DOMAIN-SUFFIX' and host.endswith('.' + d) for k, d in rules)
+
+        for host in 'chatgpt.com codex-cloud-environments.chatgpt.com auth.openai.com cdn.oaistatic.com files.oaiusercontent.com api.anthropic.com claude.ai platform.claude.com bridge.claudeusercontent.com gemini.google.com aistudio.google.com generativelanguage.googleapis.com accounts.google.com'.split():
+            self.assertTrue(matches(host), host)
+        for host in 'gmail.com mail.google.com youtube.com googlevideo.com github.com registry.npmjs.org static.microsoft.com docker.com tiktok.com facebook.com hsbc.com.hk tenant.amazonaws.com maps.googleapis.com drive.google.com notchatgpt.com chatgpt.com.example.org'.split():
+            self.assertFalse(matches(host), host)
+
     def test_required_services(self):
         rules = build.read_domains()[2]
         def matches(host):

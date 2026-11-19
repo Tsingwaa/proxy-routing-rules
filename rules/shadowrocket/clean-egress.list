@@ -1,0 +1,36 @@
+# Stable-egress profile: ChatGPT / Codex, Claude, Gemini
+# Route only this selection to a stable exit; it is not a complete allowlist.
+# Sources: see README.md. No policies or proxy credentials in this file.
+
+# ChatGPT / Codex: API, auth, app resources, files
+DOMAIN-SUFFIX,openai.com
+DOMAIN-SUFFIX,chatgpt.com
+DOMAIN-SUFFIX,oaistatic.com
+DOMAIN-SUFFIX,oaiusercontent.com
+DOMAIN-SUFFIX,openaicom.imgix.net
+DOMAIN,cdn.openaimerge.com
+DOMAIN,openai-api.arkoselabs.com
+DOMAIN,cdn.workos.com
+DOMAIN,forwarder.workos.com
+DOMAIN,frontend-apps-multi-region.workos.com
+DOMAIN,images.workoscdn.com
+DOMAIN,setup.workos.com
+DOMAIN,workos.imgix.net
+
+# Claude: app, sign-in, API, artifacts and connectors
+DOMAIN-SUFFIX,anthropic.com
+DOMAIN-SUFFIX,claude.ai
+DOMAIN-SUFFIX,claude.com
+DOMAIN-SUFFIX,claude.app
+DOMAIN-SUFFIX,claudeusercontent.com
+DOMAIN-SUFFIX,claudemcpcontent.com
+DOMAIN-SUFFIX,claudemcpclient.com
+DOMAIN-SUFFIX,clau.de
+DOMAIN,servd-anthropic-website.b-cdn.net
+
+# Gemini: web, AI Studio, Gemini API, shared Google sign-in
+DOMAIN,gemini.google.com
+DOMAIN,aistudio.google.com
+DOMAIN,generativelanguage.googleapis.com
+DOMAIN,accounts.google.com
+DOMAIN,oauth2.googleapis.com
