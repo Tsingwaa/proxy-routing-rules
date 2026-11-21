@@ -12,17 +12,17 @@
 
 使用 **Raw 链接**，不要使用 GitHub 的 `blob` 页面地址。这是路由规则订阅，不是节点订阅或完整代理配置。
 
-## Shadowrocket：仅重点 AI 走固定出口
+## Shadowrocket：重点 AI / Facebook / WhatsApp 走固定出口
 
-[clean-egress.list](https://raw.githubusercontent.com/Tsingwaa/proxy-routing-rules/main/rules/shadowrocket/clean-egress.list) 收录 ChatGPT/Codex、Claude、Gemini 的主要域名及登录、资源依赖，不等于服务商要求使用独享 IP。YouTube、TikTok、Meta 社媒、GitHub、通用云和系统更新不在这份名单内。Google 登录主机与其他 Google 服务共用，域名规则无法区分是哪一个应用发起登录；AI 附件仍会走所选出口。
+[clean-egress.list](https://raw.githubusercontent.com/Tsingwaa/proxy-routing-rules/main/rules/shadowrocket/clean-egress.list) 收录 ChatGPT/Codex、Claude、Gemini、Facebook、WhatsApp 的主要域名及登录、资源依赖，不等于服务商要求使用独享 IP。YouTube、TikTok、Instagram 专用域名、GitHub、通用云和系统更新不在这份名单内。Facebook 的共享 CDN 也可能承载其他 Meta 应用的资源。Google 登录主机与其他 Google 服务共用，域名规则无法区分是哪一个应用发起登录；AI 附件仍会走所选出口。
 
 ```ini
 RULE-SET,https://raw.githubusercontent.com/Tsingwaa/proxy-routing-rules/main/rules/shadowrocket/clean-egress.list,STATIC_IP
 ```
 
-将 `STATIC_IP` 改为现有固定节点或策略组名。把这一行放在更宽的 AI / 通用规则之前，并将原 `common.list` 指向普通代理（若它原本也指向固定出口），否则不会缩小固定出口的范围。保留现有规则与兜底，不必订阅可选 IP 集。此清单不包含直连 IP 的语音规则，不替代其他联动服务的规则。小火箭全局路由选择「配置」后，用请求日志核对实际命中。
+将 `STATIC_IP` 改为现有固定节点或策略组名。把这一行放在更宽的 AI、社交媒体、IM 或通用规则之前，并将原 `common.list` 指向普通代理（若它原本也指向固定出口），否则不会缩小固定出口的范围。保留现有规则与兜底，不必订阅可选 IP 集。此清单不包含直连 IP 的语音规则，不替代其他联动服务的规则。需要出口不自动切换时，使用固定节点，不使用会自动换节点的测速或故障转移组。域名规则不覆盖直接使用 IP 的连接。小火箭全局路由选择「配置」后，用请求日志核对实际命中。
 
-参考：[OpenAI 网络建议](https://help.openai.com/en/articles/9247338-network-recommendations-for-chatgpt-errors-on-web-and-apps)、[Anthropic 网络配置](https://code.claude.com/docs/en/network-config)、[Google Gemini 登录说明](https://support.google.com/gemini/answer/13278668)、[Gemini API](https://ai.google.dev/api)。这是固定出口的路由选择，不是这些文档的完整防火墙白名单。
+参考：[OpenAI 网络建议](https://help.openai.com/en/articles/9247338-network-recommendations-for-chatgpt-errors-on-web-and-apps)、[Anthropic 网络配置](https://code.claude.com/docs/en/network-config)、[Google Gemini 登录说明](https://support.google.com/gemini/answer/13278668)、[Gemini API](https://ai.google.dev/api)、[Facebook Graph API](https://developers.facebook.com/docs/graph-api/overview)、[WhatsApp 短链接](https://faq.whatsapp.com/5913398998672934)。这是固定出口的路由选择，不是这些文档的完整防火墙白名单。
 
 ## Shadowrocket / Surge 接入
 

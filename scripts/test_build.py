@@ -34,12 +34,16 @@ class RuleFormats(unittest.TestCase):
     def test_clean_egress_scope(self):
         text = build.rendered()['rules/shadowrocket/clean-egress.list']
         rules = [line.split(',') for line in text.splitlines() if line.startswith('DOMAIN')]
+        common = set(build.read_domains()[2])
+        for rule in rules:
+            if rule[1] in 'facebook.com facebook.net fb.com fbcdn.com fbcdn.net fbsbx.com fbsbx.net whatsapp.com whatsapp.net whatsapp.biz wa.me'.split():
+                self.assertIn(','.join(rule), common)
         def matches(host):
             return any(host == d or k == 'DOMAIN-SUFFIX' and host.endswith('.' + d) for k, d in rules)
 
-        for host in 'chatgpt.com codex-cloud-environments.chatgpt.com auth.openai.com cdn.oaistatic.com files.oaiusercontent.com api.anthropic.com claude.ai platform.claude.com bridge.claudeusercontent.com gemini.google.com aistudio.google.com generativelanguage.googleapis.com accounts.google.com'.split():
+        for host in 'chatgpt.com codex-cloud-environments.chatgpt.com auth.openai.com cdn.oaistatic.com files.oaiusercontent.com api.anthropic.com claude.ai platform.claude.com bridge.claudeusercontent.com gemini.google.com aistudio.google.com generativelanguage.googleapis.com accounts.google.com graph.facebook.com connect.facebook.net fb.com fbcdn.com scontent.xx.fbcdn.net fbsbx.com fbsbx.net web.whatsapp.com media.whatsapp.net whatsapp.biz wa.me'.split():
             self.assertTrue(matches(host), host)
-        for host in 'gmail.com mail.google.com youtube.com googlevideo.com github.com registry.npmjs.org static.microsoft.com docker.com tiktok.com facebook.com hsbc.com.hk tenant.amazonaws.com maps.googleapis.com drive.google.com notchatgpt.com chatgpt.com.example.org'.split():
+        for host in 'gmail.com mail.google.com youtube.com googlevideo.com github.com registry.npmjs.org static.microsoft.com docker.com tiktok.com instagram.com messenger.com notfacebook.com whatsapp.net.example.org notwa.me hsbc.com.hk tenant.amazonaws.com maps.googleapis.com drive.google.com notchatgpt.com chatgpt.com.example.org'.split():
             self.assertFalse(matches(host), host)
 
     def test_required_services(self):

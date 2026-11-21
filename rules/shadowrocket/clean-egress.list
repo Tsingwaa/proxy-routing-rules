@@ -1,4 +1,4 @@
-# Stable-egress profile: ChatGPT / Codex, Claude, Gemini
+# Stable-egress profile: ChatGPT / Codex, Claude, Gemini, Facebook, WhatsApp
 # Route only this selection to a stable exit; it is not a complete allowlist.
 # Sources: see README.md. No policies or proxy credentials in this file.
 
@@ -34,3 +34,18 @@ DOMAIN,aistudio.google.com
 DOMAIN,generativelanguage.googleapis.com
 DOMAIN,accounts.google.com
 DOMAIN,oauth2.googleapis.com
+
+# Facebook: app, sign-in and shared media hosts
+DOMAIN-SUFFIX,facebook.com
+DOMAIN-SUFFIX,facebook.net
+DOMAIN-SUFFIX,fb.com
+DOMAIN-SUFFIX,fbcdn.com
+DOMAIN-SUFFIX,fbcdn.net
+DOMAIN-SUFFIX,fbsbx.com
+DOMAIN-SUFFIX,fbsbx.net
+
+# WhatsApp: app, web, media, business and short links
+DOMAIN-SUFFIX,whatsapp.com
+DOMAIN-SUFFIX,whatsapp.net
+DOMAIN-SUFFIX,whatsapp.biz
+DOMAIN-SUFFIX,wa.me
