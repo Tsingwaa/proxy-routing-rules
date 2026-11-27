@@ -45,6 +45,17 @@ class RuleFormats(unittest.TestCase):
             self.assertTrue(matches(host), host)
         for host in 'gmail.com mail.google.com youtube.com googlevideo.com github.com registry.npmjs.org static.microsoft.com docker.com tiktok.com instagram.com messenger.com notfacebook.com whatsapp.net.example.org notwa.me hsbc.com.hk tenant.amazonaws.com maps.googleapis.com drive.google.com notchatgpt.com chatgpt.com.example.org'.split():
             self.assertFalse(matches(host), host)
+        for host in (
+            'muse.ai', 'applink.muse.ai', 'platform.muse.ai', 'auth.meta.com',
+            'eu.od.auth.meta.com', 'accountscenter.meta.com', 'agent.meta.ai',
+            'ecto1.meta.ai', 'hatch.meta.ai', 'hatch-api.meta.ai',
+            'gateway.meta.ai', 'edge-chat.meta.ai', 'edge-chat-latest.meta.ai',
+            'shortwave.meta.ai', 'hatch.metaaivm.com', 'cf.ecto1usercontent.com',
+            's.metaaiusercontent.com', 'test.meta-agents-apps.workers.dev',
+        ):
+            self.assertTrue(matches(host), host)
+        for host in ('notmuse.ai', 'muse.ai.example.org', 'www.meta.com', 'meta.ai', 'other.workers.dev'):
+            self.assertFalse(matches(host), host)
 
     def test_required_services(self):
         rules = build.read_domains()[2]
